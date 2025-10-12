@@ -389,6 +389,11 @@ textarea {
     text-decoration: none
 }
 
+/* Social icons in contact/footers */
+.social{display:flex;gap:0.6rem;align-items:center;margin-top:0.6rem}
+.social a{display:inline-block}
+.social-icon{width:20px;height:20px;display:block}
+
 /* Colorful utility classes */
 .colorful-1 {
     background: linear-gradient(135deg, #0f1724 0%, #04273a 100%);
