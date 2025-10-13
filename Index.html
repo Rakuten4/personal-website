@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Techvilla — Phones & Gadgets</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <div class="logo-placeholder">TV</div>
+          <h1>Techvilla Gadget store</h1>
+        </div>
+        <nav class="nav">
+          <input id="search" class="search" type="search" placeholder="Search phones, gadgets..." aria-label="Search products" />
+          <select id="categoryFilter" class="select">
+            <option value="all">All categories</option>
+            <option value="phones">Phones</option>
+            <option value="audio">Audio</option>
+            <option value="accessories">Accessories</option>
+          </select>
+          <button id="cartBtn" class="cart-btn" aria-label="Open cart">Cart <span id="cartCount" class="cart-count">0</span></button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main">
+      <section class="hero">
+        <div>
+          <h2>Latest phones & smart gadgets</h2>
+          <p>Top brands, best deals, and fast delivery — discover your next device at Techvilla.</p>
+        </div>
+        <div class="hero-image" aria-hidden="true">📱</div>
+      </section>
+
+      <section class="products-section">
+        <h3>Featured Products</h3>
+        <div id="products" class="products-grid" aria-live="polite"></div>
+      </section>
+      
+      <section class="uploads-section">
+        <h3>Uploaded Photos</h3>
+        <div class="uploads-gallery">
+          <!-- Thumbnails injected by HTML; using static markup so images load immediately -->
+          <img src="images/iphone 11promax 64gb.jpeg" alt="iPhone 11 Pro Max" loading="lazy"/>
+          <img src="images/iphone17 air.jpeg" alt="iPhone 17 Air" loading="lazy"/>
+          <img src="images/Iphone 16plus 256gb.jpeg" alt="iPhone 16 Plus" loading="lazy"/>
+          <img src="images/earbuds.webp" alt="Echo Buds" loading="lazy"/>
+          <img src="images/chargers.jpg" alt="Charger" loading="lazy"/>
+          <img src="images/Macbook pro.jpg" alt="MacBook Pro" loading="lazy"/>
+          <img src="images/playstation 5.webp" alt="PlayStation 5" loading="lazy"/>
+          <img src="images/Ps3 Super slim.jpeg" alt="PS3 Super Slim" loading="lazy"/>
+          <img src="images/HP 15 4gb ram 128 internal storage.jpeg" alt="HP 15 Laptop" loading="lazy"/>
+          <img src="images/Apple ipad 10th Gen.jpeg" alt="iPad 10th Gen" loading="lazy"/>
+          <img src="images/glass protector.webp" alt="Tempered Glass" loading="lazy"/>
+          <img src="images/playstation 5.webp" alt="PS5 disk edition" loading="lazy"/>
+          <img src="images/PS5 with disk.jpeg" alt="PS5 with disk" loading="lazy"/>
+          <img src="images/Apple ipad 10th Gen.jpeg" alt="iPad duplicate" loading="lazy"/>
+        </div>
+      </section>
+    </main>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal" aria-hidden="true">
+      <div class="modal-content" role="dialog" aria-modal="true">
+        <button id="modalClose" class="modal-close" aria-label="Close">×</button>
+        <div class="modal-body">
+          <img id="modalImage" src="" alt="" />
+          <div class="modal-info">
+            <h4 id="modalTitle"></h4>
+            <p id="modalDesc"></p>
+            <div class="modal-actions">
+              <strong id="modalPrice"></strong>
+              <button id="addToCart" class="btn primary">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> Techvilla — Phones & Gadgets</p>
+      </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
