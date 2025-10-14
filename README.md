@@ -47,6 +47,9 @@ Testing signup and login
 
 If you see errors, check the terminal running `npm start` for server logs and verify `users.json` has the new user.
 
+Contact form
+The server now exposes a POST `/api/contact` endpoint. When the contact form on the site is submitted, the server will save messages to `messages.json` in the project root. This makes the demo fully functional end-to-end for local testing.
+
 Notes:
 - Images referenced in `index.html` live in the `images/` folder; if missing, placeholders are hidden.
 

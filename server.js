@@ -13,6 +13,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static frontend files from the project root
+const STATIC_DIR = path.join(__dirname);
+app.use(express.static(STATIC_DIR));
+
+const MESSAGES_FILE = path.join(__dirname, 'messages.json');
+function readMessages(){ try{ return JSON.parse(fs.readFileSync(MESSAGES_FILE,'utf8')||'[]'); }catch(e){ return []; } }
+function writeMessages(m){ fs.writeFileSync(MESSAGES_FILE, JSON.stringify(m,null,2)); }
+
 function readUsers(){
   try{ return JSON.parse(fs.readFileSync(USERS_FILE,'utf8')||'[]'); }catch(e){ return []; }
 }
@@ -56,4 +64,15 @@ app.get('/api/me', (req,res)=>{
   }catch(e){ return res.status(401).json({error:'Invalid token'}); }
 });
 
-app.listen(PORT, ()=>console.log('Auth server running on', PORT));
+// Contact endpoint: store messages to messages.json
+app.post('/api/contact', (req,res)=>{
+  const { name, email, message } = req.body || {};
+  if(!name || !email || !message) return res.status(400).json({ error: 'Missing fields' });
+  const messages = readMessages();
+  const msg = { id: Date.now(), name, email, message, createdAt: new Date().toISOString() };
+  messages.push(msg);
+  writeMessages(messages);
+  res.json({ ok:true });
+});
+
+app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT} (serving frontend & auth API)`));
