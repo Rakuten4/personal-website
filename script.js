@@ -95,6 +95,37 @@ document.addEventListener('DOMContentLoaded', function(){
     if(first) first.focus();
   }));
 
+  // Preload AC image and toggle background for auth-left when login tab is active
+  (function(){
+    const authLeft = document.querySelector('.auth-left');
+    if(!authLeft) return;
+    const acSrc = 'images/ac con 2.webp';
+    const img = new Image();
+    img.src = acSrc;
+    img.onload = ()=>{
+      // set as inline style background-image (so CSS rules apply)
+      authLeft.style.backgroundImage = `url('${acSrc.replace(/'/g,"\\'")}')`;
+      // when opening auth, ensure we only show bg for login tab
+      function updateBg(){
+        const activeTab = Array.from(tabs).find(x=>x.classList.contains('active'));
+        if(activeTab && activeTab.dataset.tab === 'login') authLeft.classList.add('login-bg');
+        else authLeft.classList.remove('login-bg');
+      }
+      // initial
+      updateBg();
+      // react to tab clicks
+      tabs.forEach(t=>t.addEventListener('click', ()=>{ setTimeout(updateBg, 0); }));
+      // when opening modal via buttons
+      if(openLogin) openLogin.addEventListener('click', ()=> setTimeout(updateBg, 0));
+      if(openSignup) openSignup.addEventListener('click', ()=> setTimeout(updateBg, 0));
+      // when closing modal remove class
+      if(modalClose) modalClose.addEventListener('click', ()=> authLeft.classList.remove('login-bg'));
+      if(authModal) authModal.addEventListener('click', (e)=>{ if(e.target===authModal) authLeft.classList.remove('login-bg'); });
+      // also remove when ESC closes modal
+      window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') authLeft.classList.remove('login-bg'); });
+    };
+  })();
+
   // show/hide password
   document.querySelectorAll('.show-pass').forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -186,4 +217,58 @@ document.addEventListener('DOMContentLoaded', function(){
       if(first) first.focus();
     }
   }, true);
+
+  // Hero background slideshow (for live refrigeration photos)
+  (function(){
+    const slideshow = document.querySelector('.hero-slideshow');
+    if(!slideshow) return;
+
+    // images to rotate — replace/add fridge1.jpg, fridge2.jpg etc in images/ folder
+    const candidates = ['images/fridge1.jpg','images/fridge2.jpg','images/fridge3.jpg','images/office-illustration.png','images/logo.png'];
+
+    // test which files exist by attempting to preload and keep those that load
+    function preload(src){
+      return new Promise((resolve)=>{
+        const img = new Image(); img.src = src;
+        img.onload = ()=>resolve(src);
+        img.onerror = ()=>resolve(null);
+      });
+    }
+
+    (async ()=>{
+      const results = await Promise.all(candidates.map(preload));
+      const images = results.filter(Boolean);
+      if(images.length===0) return;
+
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(prefersReduced){
+        // show the first image statically
+        slideshow.style.backgroundImage = `url('${images[0]}')`;
+        slideshow.classList.add('visible');
+        return;
+      }
+
+      let idx = 0;
+      slideshow.style.backgroundImage = `url('${images[0]}')`;
+      slideshow.classList.add('visible');
+
+      setInterval(()=>{
+        idx = (idx + 1) % images.length;
+        // crossfade by toggling opacity class on a tiny timeout to allow transition
+        const next = images[idx];
+        const temp = document.createElement('div');
+        temp.className = 'hero-slideshow temp';
+        temp.style.backgroundImage = `url('${next}')`;
+        temp.style.position = 'absolute'; temp.style.inset = '0'; temp.style.zIndex = '1'; temp.style.opacity = '0'; temp.style.transition = 'opacity 1s ease';
+        slideshow.parentElement.insertBefore(temp, slideshow);
+        // force reflow then show
+        void temp.offsetWidth;
+        temp.style.opacity = '1';
+        setTimeout(()=>{
+          slideshow.style.backgroundImage = `url('${next}')`;
+          temp.remove();
+        }, 900);
+      }, 5000);
+    })();
+  })();
 });

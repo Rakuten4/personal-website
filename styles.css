@@ -105,6 +105,9 @@ body {
 .auth-grid{display:grid;grid-template-columns:320px 1fr}
 .auth-left{padding:1.2rem;display:flex;flex-direction:column;gap:0.6rem;justify-content:center}
 .auth-left h3{margin:0}
+.auth-left.login-bg{background-size:cover;background-position:center center;background-repeat:no-repeat;position:relative}
+.auth-left.login-bg::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.6));border-radius:inherit}
+.auth-left.login-bg *{position:relative;z-index:2}
 .auth-right{padding:1rem;background:transparent}
 .auth-tabs{display:flex;gap:0.5rem;margin-bottom:0.8rem}
 .auth-tabs .tab{background:transparent;border:0;padding:0.4rem 0.6rem;border-radius:8px;color:var(--muted)}
@@ -126,6 +129,17 @@ body {
 
 .hero {
     padding: 3rem 0
+}
+
+/* Hero background slideshow */
+.hero { position: relative; overflow: hidden }
+.hero-slideshow{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center center;transition:opacity 1s ease;opacity:0}
+.hero-slideshow.visible{opacity:1}
+.hero-slideshow::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.6));}
+.hero-inner{position:relative;z-index:2}
+
+@media (prefers-reduced-motion: reduce){
+    .hero-slideshow{transition:none}
 }
 
 .hero-inner {
