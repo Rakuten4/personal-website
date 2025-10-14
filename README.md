@@ -39,6 +39,14 @@ npm start
 
 By default the server listens on port 4000. The frontend is wired to call `http://localhost:4000/api/*` when served from `localhost`.
 
+Testing signup and login
+1. Start the auth server as above (`npm install` then `npm start`).
+2. Serve the frontend from a static server (recommended) or open `index.html` from a `http://localhost` origin so the frontend points to the local API.
+3. Click "Sign up" in the header, fill the form, and create an account. The server stores users in `users.json`.
+4. After signup the UI should show you as logged in. You can sign out and then sign in again using the "Login" button.
+
+If you see errors, check the terminal running `npm start` for server logs and verify `users.json` has the new user.
+
 Notes:
 - Images referenced in `index.html` live in the `images/` folder; if missing, placeholders are hidden.
 

@@ -136,16 +136,25 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
 
-  // basic auth form simulation
-  // real auth: call backend API (register/login)
-  const API_BASE = location.hostname === 'localhost' ? 'http://localhost:4000' : '';
+  // auth: call backend API (register/login) when available
+  // If you run the provided server (server.js) locally, it listens on http://localhost:4000
+  const API_BASE = (location.hostname === 'localhost' || !location.hostname) ? 'http://localhost:4000' : '';
   function saveToken(token){ localStorage.setItem('adetop_token', token); }
   function getToken(){ return localStorage.getItem('adetop_token'); }
   function clearToken(){ localStorage.removeItem('adetop_token'); }
 
   async function api(path, body){
-    const res = await fetch(API_BASE + path, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
-    return res.json();
+    try{
+      const res = await fetch(API_BASE + path, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+      const text = await res.text();
+      try{ const json = JSON.parse(text); if(!res.ok) throw new Error(json.error || text || res.statusText); return json; }catch(e){ if(!res.ok) throw new Error(text || res.statusText); return JSON.parse(text); }
+    }catch(err){ throw new Error('Network error: ' + (err.message||err)); }
+  }
+
+  function showFormError(form, message){
+    let el = form.querySelector('.form-error');
+    if(!el){ el = document.createElement('p'); el.className = 'form-error muted'; form.appendChild(el); }
+    el.textContent = message;
   }
 
   async function handleAuthSubmit(f){
@@ -154,22 +163,21 @@ document.addEventListener('DOMContentLoaded', function(){
     const data = {};
     for(const [k,v] of formData.entries()) data[k]=v;
     // basic validation
-    for(const k of Object.keys(data)){ if(!data[k]){ alert('Please fill all required fields.'); return; } }
+    for(const k of Object.keys(data)){ if(!data[k]){ showFormError(f, 'Please fill all required fields.'); return; } }
     btn.disabled = true; const original = btn.textContent; btn.textContent = 'Processing…';
     try{
       if(f.dataset.form === 'signup'){
         const resp = await api('/api/register', data);
-        if(resp.error) throw new Error(resp.error);
         saveToken(resp.token);
         updateAuthUI(resp.user);
+        // after signup, switch to logged-in state and close modal
       }else{
         const resp = await api('/api/login', data);
-        if(resp.error) throw new Error(resp.error);
         saveToken(resp.token);
         updateAuthUI(resp.user);
       }
       closeAuth();
-    }catch(err){ alert('Auth error: ' + (err.message||err)); }
+    }catch(err){ showFormError(f, err.message || String(err)); }
     btn.disabled=false; btn.textContent = original;
   }
 
