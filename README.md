@@ -51,7 +51,11 @@ Contact form
 The server now exposes a POST `/api/contact` endpoint. When the contact form on the site is submitted, the server will save messages to `messages.json` in the project root. This makes the demo fully functional end-to-end for local testing.
 
 Using a Postgres database (Netlify)
-The server will automatically use a Postgres database when a database URL is provided via the environment variables `NETLIFY_DATABASE_URL` or `DATABASE_URL` (Netlify exposes a `NETLIFY_DATABASE_URL` when using Netlify database add-ons). When present the server will create simple `users` and `messages` tables (if missing) and persist users/messages there. If no database URL is set, the server falls back to the existing file-based storage (`users.json` and `messages.json`).
+The server will automatically use a Postgres database when a database URL is provided via the environment variables `NETLIFY_DATABASE_URL_UNPOOLED`, `NETLIFY_DATABASE_URL` or `DATABASE_URL` (Netlify exposes `NETLIFY_DATABASE_URL` / `NETLIFY_DATABASE_URL_UNPOOLED` when using Netlify database add-ons). When present the server will create simple `users` and `messages` tables (if missing) and persist users/messages there. If no database URL is set, the server falls back to the existing file-based storage (`users.json` and `messages.json`).
+
+On Netlify you can set the variable in Site settings → Build & deploy → Environment, or visit this URL for the environment settings page:
+
+https://app.netlify.com/sites/adetopserviceslimited/configuration/env#NETLIFY_DATABASE_URL_UNPOOLED
 
 To test locally with Postgres:
 

@@ -22,8 +22,9 @@ const MESSAGES_FILE = path.join(__dirname, 'messages.json');
 function readMessages(){ try{ return JSON.parse(fs.readFileSync(MESSAGES_FILE,'utf8')||'[]'); }catch(e){ return []; } }
 function writeMessages(m){ fs.writeFileSync(MESSAGES_FILE, JSON.stringify(m,null,2)); }
 
-// Optional Postgres connection (Netlify DATABASE URL or NETLIFY_DATABASE_URL)
-const DB_URL = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
+// Optional Postgres connection (Netlify DATABASE URL variants)
+// Support NETLIFY_DATABASE_URL_UNPOOLED (Netlify unpooled DB) as well as NETLIFY_DATABASE_URL or DATABASE_URL
+const DB_URL = process.env.NETLIFY_DATABASE_URL_UNPOOLED || process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
 let pool = null;
 async function initDb(){
   if(!DB_URL) return;
