@@ -50,6 +50,26 @@ If you see errors, check the terminal running `npm start` for server logs and ve
 Contact form
 The server now exposes a POST `/api/contact` endpoint. When the contact form on the site is submitted, the server will save messages to `messages.json` in the project root. This makes the demo fully functional end-to-end for local testing.
 
+Using a Postgres database (Netlify)
+The server will automatically use a Postgres database when a database URL is provided via the environment variables `NETLIFY_DATABASE_URL` or `DATABASE_URL` (Netlify exposes a `NETLIFY_DATABASE_URL` when using Netlify database add-ons). When present the server will create simple `users` and `messages` tables (if missing) and persist users/messages there. If no database URL is set, the server falls back to the existing file-based storage (`users.json` and `messages.json`).
+
+To test locally with Postgres:
+
+1. Run a local Postgres instance (Docker example):
+
+```powershell
+docker run --name adetop-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=adetop -p 5432:5432 -d postgres:15
+```
+
+2. Start the server with the DATABASE_URL environment variable set:
+
+```powershell
+$env:DATABASE_URL = 'postgres://postgres:postgres@localhost:5432/adetop'
+npm start
+```
+
+On Netlify, set `NETLIFY_DATABASE_URL` in the site's environment variables (Site settings → Build & deploy → Environment) and deploy. The server will pick it up automatically.
+
 Notes:
 - Images referenced in `index.html` live in the `images/` folder; if missing, placeholders are hidden.
 

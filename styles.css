@@ -262,6 +262,37 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.03)
 }
 
+/* AC service card background */
+.service-ac{background-size:cover;background-position:center center;position:relative;overflow:hidden}
+.service-ac::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.28), rgba(2,6,23,0.6));}
+.service-ac *{position:relative;z-index:2}
+
+/* Fridge sales card background */
+.service-fridge{background-size:cover;background-position:center center;position:relative;overflow:hidden}
+.service-fridge::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.18), rgba(2,6,23,0.45));}
+.service-fridge *{position:relative;z-index:2}
+
+/* Fridge repair card background (gas filling) */
+.service-repair{background-size:cover;background-position:center center;position:relative;overflow:hidden}
+.service-repair::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.22), rgba(2,6,23,0.55));}
+.service-repair *{position:relative;z-index:2}
+
+/* Gas filling card background */
+.service-gas{background-size:cover;background-position:center center;position:relative;overflow:hidden}
+.service-gas::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.18), rgba(2,6,23,0.5));}
+.service-gas *{position:relative;z-index:2}
+
+/* CEO profile on About page */
+.ceo-profile{display:flex;gap:1rem;align-items:center;margin-bottom:1.25rem}
+.ceo-photo{width:140px;height:140px;border-radius:12px;flex:0 0 140px;object-fit:cover}
+.ceo-text h3{margin:0 0 0.25rem}
+.ceo-text p{margin:0;color:var(--muted)}
+
+@media (max-width:700px){
+    .ceo-profile{flex-direction:column;align-items:flex-start}
+    .ceo-photo{width:100%;height:auto;flex:0 0 auto}
+}
+
 .card h4 {
     margin-top: 0
 }
