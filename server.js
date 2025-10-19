@@ -22,13 +22,25 @@ const MESSAGES_FILE = path.join(__dirname, 'messages.json');
 function readMessages(){ try{ return JSON.parse(fs.readFileSync(MESSAGES_FILE,'utf8')||'[]'); }catch(e){ return []; } }
 function writeMessages(m){ fs.writeFileSync(MESSAGES_FILE, JSON.stringify(m,null,2)); }
 
-// Optional Postgres connection (Netlify DATABASE URL variants)
-// Support NETLIFY_DATABASE_URL_UNPOOLED (Netlify unpooled DB) as well as NETLIFY_DATABASE_URL or DATABASE_URL
-const DB_URL = process.env.NETLIFY_DATABASE_URL_UNPOOLED || process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+// Database connection with AWS RDS support
+// Priority: AWS_DATABASE_URL -> Netlify variants -> generic DATABASE_URL
+const DB_URL = process.env.AWS_DATABASE_URL || process.env.NETLIFY_DATABASE_URL_UNPOOLED || process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
 let pool = null;
 async function initDb(){
   if(!DB_URL) return;
-  pool = new Pool({ connectionString: DB_URL, ssl: DB_URL.startsWith('postgres://') ? undefined : { rejectUnauthorized: false } });
+  
+  // AWS RDS connection configuration
+  const isAWS = DB_URL.includes('rds.amazonaws.com') || process.env.AWS_DATABASE_URL;
+  const poolConfig = {
+    connectionString: DB_URL,
+    ssl: isAWS ? { rejectUnauthorized: false } : (DB_URL.startsWith('postgres://') ? undefined : { rejectUnauthorized: false }),
+    // AWS RDS recommended settings
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
+  };
+  
+  pool = new Pool(poolConfig);
   // create tables if missing
   await pool.query(`CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY,

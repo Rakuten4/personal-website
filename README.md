@@ -50,12 +50,33 @@ If you see errors, check the terminal running `npm start` for server logs and ve
 Contact form
 The server now exposes a POST `/api/contact` endpoint. When the contact form on the site is submitted, the server will save messages to `messages.json` in the project root. This makes the demo fully functional end-to-end for local testing.
 
-Using a Postgres database (Netlify)
-The server will automatically use a Postgres database when a database URL is provided via the environment variables `NETLIFY_DATABASE_URL_UNPOOLED`, `NETLIFY_DATABASE_URL` or `DATABASE_URL` (Netlify exposes `NETLIFY_DATABASE_URL` / `NETLIFY_DATABASE_URL_UNPOOLED` when using Netlify database add-ons). When present the server will create simple `users` and `messages` tables (if missing) and persist users/messages there. If no database URL is set, the server falls back to the existing file-based storage (`users.json` and `messages.json`).
+Using a Postgres database
 
-On Netlify you can set the variable in Site settings → Build & deploy → Environment, or visit this URL for the environment settings page:
+## AWS RDS Connection (Primary)
+The server is configured to connect to your AWS RDS PostgreSQL instance at:
+`database-1.cjqm6ca8kah7.eu-north-1.rds.amazonaws.com`
 
-https://app.netlify.com/sites/adetopserviceslimited/configuration/env#NETLIFY_DATABASE_URL_UNPOOLED
+Set the `AWS_DATABASE_URL` environment variable with your full connection string:
+
+```powershell
+# Local development
+$env:AWS_DATABASE_URL = 'postgresql://username:password@database-1.cjqm6ca8kah7.eu-north-1.rds.amazonaws.com:5432/database_name'
+npm start
+```
+
+For production deployment (Netlify/Vercel/etc), set the `AWS_DATABASE_URL` environment variable in your deployment platform's settings.
+
+## Netlify Database (Fallback)
+The server also supports Netlify database add-ons via `NETLIFY_DATABASE_URL_UNPOOLED`, `NETLIFY_DATABASE_URL` or generic `DATABASE_URL`. When present the server will create simple `users` and `messages` tables (if missing) and persist users/messages there. If no database URL is set, the server falls back to file-based storage (`users.json` and `messages.json`).
+
+Environment variable priority:
+1. `AWS_DATABASE_URL` (your AWS RDS)
+2. `NETLIFY_DATABASE_URL_UNPOOLED` 
+3. `NETLIFY_DATABASE_URL`
+4. `DATABASE_URL`
+5. File-based fallback
+
+Netlify environment settings: https://app.netlify.com/sites/adetopserviceslimited/configuration/env
 
 To test locally with Postgres:
 

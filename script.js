@@ -126,6 +126,28 @@ document.addEventListener('DOMContentLoaded', function(){
     };
   })();
 
+  // speech toggle beside CEO heading
+  (function(){
+    const buttons = document.querySelectorAll('.speech-toggle');
+    buttons.forEach(btn=>{
+      const targetId = btn.getAttribute('aria-controls');
+      const target = targetId ? document.getElementById(targetId) : null;
+      btn.addEventListener('click', ()=>{
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        if(target){
+          target.hidden = expanded; // if was expanded -> hide, else show
+          // move focus into the speech when opening for screen reader users
+          if(!expanded){
+            const p = target.querySelector('p');
+            if(p) p.setAttribute('tabindex','-1');
+            target.scrollIntoView({behavior:'smooth', block:'nearest'});
+          }
+        }
+      });
+    });
+  })();
+
   // show/hide password
   document.querySelectorAll('.show-pass').forEach(btn=>{
     btn.addEventListener('click', ()=>{

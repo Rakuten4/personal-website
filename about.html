@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>About — Adetop Tech Services Limited</title>
     <meta name="description" content="About Adetop Tech Services Limited" />
-    <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Lora for the CEO biography -->
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
   </head>
   <body>
     <header class="site-header">
@@ -30,17 +32,28 @@
     <main>
       <section class="container" style="padding:3rem 0">
         <div class="ceo-profile">
-          <img src="images/ceo.svg" alt="CEO" class="ceo-photo" />
+          <!-- Primary: real photo; fallback to SVG if JPEG not present -->
+          <figure style="margin:0">
+            <img src="images/C.E.O.jpeg" alt="CEO" class="ceo-photo" onerror="this.onerror=null;this.src='images/ceo.svg'" />
+            <figcaption class="ceo-caption">PST. Aderinkoye J. Samuel</figcaption>
+            <div class="ceo-role">C.E.O</div>
+          </figure>
           <div class="ceo-text">
-            <h3>CEO</h3>
+            <h3>
+              CEO
+              <button class="speech-toggle" aria-expanded="false" aria-controls="ceo-speech" title="Show CEO speech">💬</button>
+            </h3>
             <p>The technician's journey likely began in a world far removed from today's smart-appliance technology. Their training would have focused on core mechanical and electrical principles, mastering the fundamental workings of refrigeration cycles. Early years were spent with a toolbox full of analog gauges and manual schematics, relying on a meticulous, hands-on approach to diagnose issues. This was an era where intuition and a deep understanding of components were paramount.</p>
             <p>Over the course of 40 years, the refrigeration industry transformed with the introduction of new refrigerants, solid-state electronics, and sophisticated computer controls. The veteran technician's longevity is a testament to their adaptability and commitment to continuous learning. They would have embraced these changes, attending workshops and reading updated service manuals to stay current. This meant evolving from a mechanic to a diagnostician who understands both the traditional mechanical failures and the complexities of modern control boards and sensor systems.</p>
             <p>Beyond technical aptitude, a long-serving repair person is a true "hometown hero" to their loyal customers. Their work goes beyond a simple repair; it is about building trust and offering peace of mind. For many customers, the sight of their familiar service van arriving is a relief, knowing their family's food will be safe and their appliance will be in capable hands. The biography would touch on their strong interpersonal skills and reputation for fair dealing and reliability.</p>
+            <div id="ceo-speech" class="ceo-speech" hidden>
+              <p><em>"Our commitment is to serve with integrity, deliver quality workmanship, and always put the customer first."</em></p>
+            </div>
           </div>
         </div>
 
         <h2>About Adetop Tech Services Limited</h2>
-        <p>Adetop Tech Services Limited delivers practical, secure, and scalable technology solutions for businesses of all sizes. Our team specializes in software development, cloud engineering, cybersecurity, and appliance repair services.</p>
+        <p>Adetop Tech Services Limited delivers practical, secure, and scalable solutions for refrigerant businesses of all sizes. Our team specializes in fridge repair, fridge sales, AC installation, and refrigerant repair services.</p>
         <h3>Our mission</h3>
         <p>To empower businesses with reliable technology and exceptional service — from building to hands-on appliance repair and maintenance.</p>
         <h3>Contact</h3>

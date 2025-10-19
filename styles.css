@@ -284,13 +284,40 @@ body {
 
 /* CEO profile on About page */
 .ceo-profile{display:flex;gap:1rem;align-items:center;margin-bottom:1.25rem}
-.ceo-photo{width:140px;height:140px;border-radius:12px;flex:0 0 140px;object-fit:cover}
+.ceo-photo{
+    width:110px;
+    height:110px;
+    border-radius:12px;
+    flex:0 0 110px;
+    object-fit:cover;
+    box-shadow: 0 6px 20px rgba(2,6,23,0.6);
+    /* Shift image upward so the face sits higher in the frame; crops bottom */
+    object-position: 50% 18%;
+    /* Subtle reflection for WebKit browsers */
+    -webkit-box-reflect: below 6px linear-gradient(transparent, rgba(255,255,255,0.06));
+}
 .ceo-text h3{margin:0 0 0.25rem}
 .ceo-text p{margin:0;color:var(--muted)}
+.ceo-text{
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e8eef6;
+}
+
+.speech-toggle{background:transparent;border:0;margin-left:0.5rem;cursor:pointer;font-size:1rem}
+.speech-toggle:focus{outline:2px solid rgba(6,182,212,0.4);border-radius:6px}
+.ceo-speech{margin-top:0.6rem;background:rgba(255,255,255,0.02);padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:var(--muted)}
+
+/* CEO caption under photo */
+.ceo-caption{margin-top:0.5rem;font-size:0.9rem;color:var(--muted);text-align:center}
+
+.ceo-role{font-weight:700;text-align:center;margin-top:0.15rem;letter-spacing:0.06em}
 
 @media (max-width:700px){
     .ceo-profile{flex-direction:column;align-items:flex-start}
-    .ceo-photo{width:100%;height:auto;flex:0 0 auto}
+    /* On small screens we keep the image full-width but ensure the top portion is visible */
+    .ceo-photo{width:100%;height:auto;flex:0 0 auto;object-position:50% 10%}
 }
 
 .card h4 {
