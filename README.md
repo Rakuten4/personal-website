@@ -56,12 +56,24 @@ Using a Postgres database
 The server is configured to connect to your AWS RDS PostgreSQL instance at:
 `database-1.cjqm6ca8kah7.eu-north-1.rds.amazonaws.com`
 
-Set the `AWS_DATABASE_URL` environment variable with your full connection string:
+**Your AWS RDS Configuration:**
+- Host: `database-1.cjqm6ca8kah7.eu-north-1.rds.amazonaws.com`
+- Username: `postgres`
+- Password: `Olarewaju121???`
+- Database: `postgres` (default database name)
+- Port: `5432`
+
+Set the `AWS_DATABASE_URL` environment variable with your connection string:
 
 ```powershell
-# Local development
-$env:AWS_DATABASE_URL = 'postgresql://username:password@database-1.cjqm6ca8kah7.eu-north-1.rds.amazonaws.com:5432/database_name'
+# Local development - set environment variable and start server
+$env:AWS_DATABASE_URL = 'postgresql://postgres:Olarewaju121???@database-1.cjqm6ca8kah7.eu-north-1.rds.amazonaws.com:5432/postgres'
 npm start
+```
+
+**Quick test command:**
+```powershell
+$env:AWS_DATABASE_URL = 'postgresql://postgres:Olarewaju121???@database-1.cjqm6ca8kah7.eu-north-1.rds.amazonaws.com:5432/postgres'; npm start
 ```
 
 For production deployment (Netlify/Vercel/etc), set the `AWS_DATABASE_URL` environment variable in your deployment platform's settings.
